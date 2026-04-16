@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.carparkingsystem.models.CarModel
 import com.example.carparkingsystem.navigation.ROUTE_DASHBOARD
 
 import com.google.firebase.database.FirebaseDatabase
@@ -75,11 +76,23 @@ class CarViewModel:ViewModel() {
             .find(responseBody ?: "")?.groupValues?.get(1)
         return secureUrl ?: throw Exception("Failed to get image URL")
     }
-
-
-
-
-
-
+    private val _cars = mutableStateListOf<CarModel>()
+    val cars: List<CarModel> = _cars
+    fun fetchCars(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("Cars")
+        ref.get().addOnSuccessListener {
+            snapshot ->
+            _cars.clear()
+            for (child in snapshot.children){
+                val car = child.getValue(CarModel::class.java)
+                car?.let {
+                    it.id = child.key
+                    _cars.add(it)
+                }
+            }
+        }.addOnFailureListener {
+            Toast.makeText(context, "Failed to load cars", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }
