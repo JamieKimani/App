@@ -5,17 +5,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.carparkingsystem.ui.theme.screens.car.AddCarScreen
+import com.example.carparkingsystem.ui.theme.screens.car.AddCarScreenPreview
 import com.example.carparkingsystem.ui.theme.screens.dashboard.Dashboard
 import com.example.carparkingsystem.ui.theme.screens.login.LoginScreen
 import com.example.carparkingsystem.ui.theme.screens.register.RegisterScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController= rememberNavController(),
-    startDestination: String = ROUTE_REGISTER){
+    startDestination: String = ROUTE_ADD_CAR){
     NavHost(navController = navController, startDestination = startDestination){
         composable(ROUTE_REGISTER){RegisterScreen(navController)}
         composable(ROUTE_LOGIN){ LoginScreen(navController) }
         composable(ROUTE_DASHBOARD){ Dashboard(navController) }
+        composable(ROUTE_ADD_CAR){ AddCarScreen(navController) }
+
 
 
     }
